@@ -1,0 +1,24 @@
+{
+    "name": "ledc/shan-song",
+    "description": "闪送开放平台，自营商户SDK",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ledc\\ShanSong\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "david",
+            "email": "367013672@qq.com",
+            "homepage": "https://www.iyuu.cn",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "ext-curl": "*"
+    }
+}
