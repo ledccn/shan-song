@@ -85,7 +85,6 @@ $merchant->addStores();
 // 更多...
 ```
 
-
 ## 二次开发
 
 配置管理类：`Ledc\ShanSong\Config`
