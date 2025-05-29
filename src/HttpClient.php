@@ -60,6 +60,11 @@ trait HttpClient
     public function signatureParams(array $data): array
     {
         $params = $this->getSystemParams();
+
+        // 过滤非必传的空值
+        $data = array_filter($data, function ($value) {
+            return null !== $value && '' !== $value;
+        });
         if ($data) {
             $params['data'] = json_encode($data);
         }
@@ -100,11 +105,6 @@ trait HttpClient
      */
     final public function request(string $uri, array $data = [], string $method = 'POST', array $options = []): HttpResponse
     {
-        // 过滤非必传的空值
-        $data = array_filter($data, function ($value) {
-            return null !== $value && '' !== $value;
-        });
-
         $url = $this->getBaseUrl() . $uri;
         $params = $this->signatureParams($data);
 

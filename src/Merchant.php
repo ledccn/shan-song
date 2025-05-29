@@ -2,6 +2,8 @@
 
 namespace Ledc\ShanSong;
 
+use Ledc\ShanSong\Parameters\OrderCalculate;
+
 /**
  * 闪送自营商户
  * @author david <367013672@qq.com>
@@ -71,12 +73,12 @@ class Merchant
      * - 用来进行计费使用，可以理解为下单询价。需要注意的是计费和真正支付的金额可能存在不一样。
      * - 测试环境的计费规则是随意配置的，一切订单计价的费用以线上为准，理论上测试环境只要能够计费成功就可以。
      * @link https://open.ishansong.com/joinGuide/281
-     * @param array $data
+     * @param OrderCalculate $data
      * @return array
      */
-    public function orderCalculate(array $data): array
+    public function orderCalculate(OrderCalculate $data): array
     {
-        return $this->post('/openapi/merchants/v5/orderCalculate', $data);
+        return $this->post('/openapi/merchants/v5/orderCalculate', $data->jsonSerialize());
     }
 
     /**

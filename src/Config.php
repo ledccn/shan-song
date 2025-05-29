@@ -84,6 +84,17 @@ class Config implements JsonSerializable
     }
 
     /**
+     * 设置调试模式
+     * @param bool $debug
+     * @return Config
+     */
+    public function setDebug(bool $debug): self
+    {
+        $this->debug = $debug;
+        return $this;
+    }
+
+    /**
      * 获取商户ID
      * @return string
      */
