@@ -1,0 +1,14 @@
+{
+  "clientId": "clientId",
+  "drawback": 0,
+  "issOrderNo": "TDH2025053050205843",
+  "orderNo": "cp451412923563114496",
+  "sendBackFee": 0,
+  "shopId": "shopId",
+  "status": 20,
+  "statusChangeTime": "2025-05-30 16:55:19",
+  "statusDesc": "派单中",
+  "subStatus": 1,
+  "subStatusDesc": "派单中",
+  "token": "80801524A9FEB09FCE599E411F3E7917"
+}

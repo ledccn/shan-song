@@ -2,7 +2,9 @@
 
 namespace Ledc\ShanSong;
 
+use InvalidArgumentException;
 use JsonSerializable;
+use Ledc\ShanSong\Parameters\Notify;
 
 /**
  * 闪送配置类
@@ -164,6 +166,7 @@ class Config implements JsonSerializable
     /**
      * 自动获取商户ID
      * - 根据是否调试模式自动获取
+     * - 请注意区分测试环境与正式环境
      * @return string
      */
     public function autoShopId(): string
@@ -240,6 +243,9 @@ class Config implements JsonSerializable
         ksort($params);
         $original = '';
         foreach ($params as $key => $value) {
+            if (is_array($value) || is_object($value)) {
+                $value = json_encode($value);
+            }
             $original .= $key . $value;
         }
 
@@ -248,5 +254,23 @@ class Config implements JsonSerializable
 
         // 计算MD5，得到签名（32位大写）
         return strtoupper(md5($original));
+    }
+
+    /**
+     * 验证订单状态回调的数据报文
+     * - 验证clientId、shopId
+     * @param Notify $notify
+     * @return bool
+     */
+    public function verifyNotify(Notify $notify): bool
+    {
+        if ($this->getClientId() !== $notify->getClientId()) {
+            throw new InvalidArgumentException('client_id不匹配');
+        }
+        if ($this->autoShopId() !== $notify->getShopId()) {
+            throw new InvalidArgumentException('shop_id不匹配');
+        }
+
+        return true;
     }
 }

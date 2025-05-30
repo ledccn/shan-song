@@ -10,9 +10,11 @@ class OrderCalculateReceiverList extends Collection
     /**
      * 添加收件人信息
      * @param OrderCalculateReceiver $receiver 收件人信息
+     * @return self
      */
-    public function add(OrderCalculateReceiver $receiver)
+    public function add(OrderCalculateReceiver $receiver): self
     {
         $this->items[] = $receiver;
+        return $this;
     }
 }

@@ -1,0 +1,28 @@
+{
+  "clientId": "clientId",
+  "courier": {
+    "blacklisted": 0,
+    "deliveryProcessTrail": [],
+    "estimateDeliveryTimeTip": "即将上门取件",
+    "gcj02Trail": [],
+    "headIcon": "https://cdn.ishansong.com/courier-static/courierHead.png",
+    "id": "SSBJ000000166",
+    "mobile": "18717311341",
+    "name": "测师傅",
+    "orderCount": 9435,
+    "type": 1
+  },
+  "deliveryPassword": "4004",
+  "drawback": 0,
+  "issOrderNo": "TDH2025053050205843",
+  "orderNo": "cp451412923563114496",
+  "pickupPassword": "",
+  "sendBackFee": 0,
+  "shopId": "shopId",
+  "status": 30,
+  "statusChangeTime": "2025-05-30 16:55:54",
+  "statusDesc": "待取货",
+  "subStatus": 1,
+  "subStatusDesc": "待取货",
+  "token": "80801524A9FEB09FCE599E411F3E7917"
+}

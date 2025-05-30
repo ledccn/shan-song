@@ -3,6 +3,8 @@
 namespace Ledc\ShanSong;
 
 use Ledc\ShanSong\Parameters\OrderCalculate;
+use Ledc\ShanSong\Parameters\OrderCalculateResponse;
+use Ledc\ShanSong\Parameters\OrderPlaceResponse;
 
 /**
  * 闪送自营商户
@@ -74,11 +76,12 @@ class Merchant
      * - 测试环境的计费规则是随意配置的，一切订单计价的费用以线上为准，理论上测试环境只要能够计费成功就可以。
      * @link https://open.ishansong.com/joinGuide/281
      * @param OrderCalculate $data
-     * @return array
+     * @return OrderCalculateResponse
      */
-    public function orderCalculate(OrderCalculate $data): array
+    public function orderCalculate(OrderCalculate $data): OrderCalculateResponse
     {
-        return $this->post('/openapi/merchants/v5/orderCalculate', $data->jsonSerialize());
+        $result = $this->post('/openapi/merchants/v5/orderCalculate', $data->jsonSerialize());
+        return new OrderCalculateResponse($result);
     }
 
     /**
@@ -86,13 +89,14 @@ class Merchant
      * - 测试环境的计费规则是随意配置的，一切提交订单的费用以线上为准，理论上测试环境只要能够提交订单成功就可以。
      * @link https://open.ishansong.com/joinGuide/282
      * @param string $issOrderNo 闪送订单号
-     * @return array
+     * @return OrderPlaceResponse
      */
-    public function orderPlace(string $issOrderNo): array
+    public function orderPlace(string $issOrderNo): OrderPlaceResponse
     {
-        return $this->post('/openapi/merchants/v5/orderPlace', [
+        $result =$this->post('/openapi/merchants/v5/orderPlace', [
             'issOrderNo' => $issOrderNo
         ]);
+        return new OrderPlaceResponse($result);
     }
 
     /**

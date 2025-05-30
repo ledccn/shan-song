@@ -30,23 +30,47 @@ abstract class Parameters implements JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        $properties = [];
+        $items = [];
         $excludesKeys = $this->getExcludesKeys();
-        $items = $this->filterEmptyValues(get_object_vars($this));
-        foreach ($items as $key => $value) {
+        $properties = $this->filterEmptyValues(get_object_vars($this));
+        foreach ($properties as $key => $value) {
             // 排除的keys
             if (in_array($key, $excludesKeys, true)) {
                 continue;
             }
 
             if ($value instanceof JsonSerializable) {
-                $properties[$key] = $value->jsonSerialize();
+                $items[$key] = $value->jsonSerialize();
             } else {
-                $properties[$key] = $value;
+                $items[$key] = $value;
             }
         }
 
-        return $this->checkMissingKeys($properties);
+        return $this->checkMissingKeys($items);
+    }
+
+    /**
+     * 转数组
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->jsonSerialize();
+    }
+
+    /**
+     * 转字符串
+     * @param int $options
+     * @return string
+     */
+    public function toJson(int $options = 0): string
+    {
+        $json = json_encode($this->jsonSerialize(), $options);
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new InvalidArgumentException('json_encode error: ' . json_last_error_msg());
+        }
+
+        return $json;
     }
 
     /**
