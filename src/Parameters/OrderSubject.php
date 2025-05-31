@@ -2,6 +2,8 @@
 
 namespace Ledc\ShanSong\Parameters;
 
+use Closure;
+use InvalidArgumentException;
 use SplObjectStorage;
 use SplObserver;
 use SplSubject;
@@ -12,7 +14,7 @@ use SplSubject;
 abstract class OrderSubject implements SplSubject
 {
     /**
-     * 已注册的观察者对象
+     * 已注册添加的观察者对象
      * @var SplObjectStorage
      */
     private SplObjectStorage $observers;
@@ -21,6 +23,11 @@ abstract class OrderSubject implements SplSubject
      * @var Notify
      */
     private Notify $status;
+    /**
+     * 待注册添加的观察者类
+     * @var array|class-string[]|SplObserver[]
+     */
+    protected array $register = [];
 
     /**
      * 构造函数
@@ -30,25 +37,15 @@ abstract class OrderSubject implements SplSubject
     {
         $this->observers = new SplObjectStorage();
         $this->status = $status;
-        $this->init();
+        $this->initialize();
+        $this->registerObserver();
     }
 
     /**
      * 子类初始化
      * @return void
      */
-    abstract protected function init(): void;
-
-    /**
-     * 添加观察者
-     * @param SplObserver $observer 观察者对象
-     * @return self
-     */
-    final public function register(SplObserver $observer): self
-    {
-        $this->observers->attach($observer);
-        return $this;
-    }
+    abstract protected function initialize(): void;
 
     /**
      * 添加观察者
@@ -100,5 +97,36 @@ abstract class OrderSubject implements SplSubject
     final public function getStatus(): Notify
     {
         return $this->status;
+    }
+
+    /**
+     * 添加观察者
+     * @return void
+     */
+    final private function registerObserver(): void
+    {
+        foreach ($this->register as $class) {
+            if ($class instanceof SplObserver) {
+                $this->attach($class);
+            } elseif (is_string($class) && class_exists($class)) {
+                $this->attach(new $class);
+            } elseif ($class instanceof Closure) {
+                $this->attach(new class($class) implements SplObserver {
+                    private Closure $closure;
+
+                    public function __construct(Closure $closure)
+                    {
+                        $this->closure = $closure;
+                    }
+
+                    public function update(SplSubject $subject): void
+                    {
+                        ($this->closure)($subject);
+                    }
+                });
+            } else {
+                throw new InvalidArgumentException('观察者类必须是 SplObserver 或字符串');
+            }
+        }
     }
 }
