@@ -39,6 +39,7 @@ class OrderCalculateReceiver extends Parameters
     public string $toReceiverName;
     /**
      * 必填：收件联系人
+     * - 支持11位手机号；支持座机号格式：010-12345678 或者010-12345678-123）；支持隐私号（格式：18701012345#001）
      * @var string
      */
     public string $toMobile;
@@ -85,7 +86,7 @@ class OrderCalculateReceiver extends Parameters
      */
     public ?int $goodsSizeIde = null;
     /**
-     * 单位：分
+     * 投保金额，单位：分
      * - insuranceFlag为1时，必传。闪送会根据投保金额计算保险费用，如果你的物品破损或丢失，将可根据投保金额进行索赔
      * @var int|null
      */
@@ -97,7 +98,7 @@ class OrderCalculateReceiver extends Parameters
      */
     public ?int $qualityDelivery = null;
     /**
-     * 是否投保:非必填
+     * 是否投保
      * - 0:不投保;1:投保，默认值为0。投保金额以goodsPrice为准。
      * @var int
      */
