@@ -2,6 +2,9 @@
 
 namespace Ledc\ShanSong\Parameters;
 
+use InvalidArgumentException;
+use Ledc\ShanSong\Enums\GoodsSizeIdEnums;
+
 /**
  * 收件人信息
  */
@@ -115,6 +118,37 @@ class OrderCalculateReceiver extends Parameters
      * @var int|null
      */
     public ?int $expectEndTime = null;
+
+    /**
+     * 验证蛋糕尺寸
+     * @param int|null $qualityDelivery 尊享送服务
+     * @param int|null $goodType 物品类型
+     * @param int|null $goodsSizeIde 蛋糕尺寸
+     * @return bool
+     */
+    public static function validateGoodsSizeIde(?int $qualityDelivery, ?int $goodType, ?int $goodsSizeIde): bool
+    {
+        if (1 === $qualityDelivery && 5 === $goodType && empty($goodsSizeIde)) {
+            throw new InvalidArgumentException('尊享服务送蛋糕时，蛋糕尺寸必填');
+        }
+
+        if ($goodsSizeIde) {
+            if (!array_key_exists($goodsSizeIde, GoodsSizeIdEnums::cases())) {
+                throw new InvalidArgumentException('蛋糕尺寸错误');
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 验证参数
+     * @param array $properties
+     * @return void
+     */
+    public function validate(array $properties): void
+    {
+        self::validateGoodsSizeIde($this->qualityDelivery, $this->goodType, $this->goodsSizeIde);
+    }
 
     /**
      * 必填项

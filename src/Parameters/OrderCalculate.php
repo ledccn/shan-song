@@ -2,6 +2,8 @@
 
 namespace Ledc\ShanSong\Parameters;
 
+use InvalidArgumentException;
+
 /**
  * 订单计费的data参数
  */
@@ -20,7 +22,7 @@ class OrderCalculate extends Parameters
      */
     public int $appointType = 0;
     /**
-     * 预约时间
+     * 预约取件时间
      * - yyyy-MM-dd HH:mm格式(例如：2020-02-02 22:00）,指的是预约取件时间,只支持一个小时以后两天以内
      * @var string
      */
@@ -80,6 +82,41 @@ class OrderCalculate extends Parameters
      * @var OrderCalculateReceiverList|OrderCalculateReceiver[]|array
      */
     public OrderCalculateReceiverList $receiverList;
+
+    /**
+     * 预约类型验证
+     * @param int $appointType 预约类型
+     * @param string $appointmentDate 预约取件时间
+     * @return bool
+     */
+    public static function validateAppointment(int $appointType, string $appointmentDate): bool
+    {
+        if (1 === $appointType) {
+            if (empty($appointmentDate)) {
+                throw new InvalidArgumentException('预约取件时间不能为空');
+            }
+            $appointment_timestamp = strtotime($appointmentDate);
+            if (date('Y-m-d H:i', $appointment_timestamp) !== $appointmentDate) {
+                throw new InvalidArgumentException('预约取件时间为yyyy-MM-dd HH:mm格式');
+            }
+            $min_time = time() + 3600;
+            $max_time = time() + 86400 * 2;
+            if ($appointment_timestamp < $min_time || $max_time < $appointment_timestamp) {
+                throw new InvalidArgumentException('预约取件时间必须在1小时后2天以内');
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 验证参数
+     * @param array $properties
+     * @return void
+     */
+    public function validate(array $properties): void
+    {
+        self::validateAppointment($this->appointType, $this->appointmentDate);
+    }
 
     /**
      * 必填项

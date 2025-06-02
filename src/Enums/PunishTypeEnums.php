@@ -51,7 +51,7 @@ class PunishTypeEnums
     {
         $rs = [];
         foreach (self::cases() as $value => $name) {
-            $rs[] = compact("name", "value");
+            $rs[] = compact('name', 'value');
         }
         return $rs;
     }
