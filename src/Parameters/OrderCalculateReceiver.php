@@ -87,7 +87,7 @@ class OrderCalculateReceiver extends Parameters
      * - 当qualityDelivery为1，并且goodType为5时，必传。详见下方蛋糕尺寸枚举
      * @var int|null
      */
-    public ?int $goodsSizeIde = null;
+    public ?int $goodsSizeId = null;
     /**
      * 投保金额，单位：分
      * - insuranceFlag为1时，必传。闪送会根据投保金额计算保险费用，如果你的物品破损或丢失，将可根据投保金额进行索赔
@@ -123,17 +123,17 @@ class OrderCalculateReceiver extends Parameters
      * 验证蛋糕尺寸
      * @param int|null $qualityDelivery 尊享送服务
      * @param int|null $goodType 物品类型
-     * @param int|null $goodsSizeIde 蛋糕尺寸
+     * @param int|null $goodsSizeId 蛋糕尺寸
      * @return bool
      */
-    public static function validateGoodsSizeIde(?int $qualityDelivery, ?int $goodType, ?int $goodsSizeIde): bool
+    public static function validateGoodsSizeIde(?int $qualityDelivery, ?int $goodType, ?int $goodsSizeId): bool
     {
-        if (1 === $qualityDelivery && 5 === $goodType && empty($goodsSizeIde)) {
+        if (1 === $qualityDelivery && 5 === $goodType && empty($goodsSizeId)) {
             throw new InvalidArgumentException('尊享服务送蛋糕时，蛋糕尺寸必填');
         }
 
-        if ($goodsSizeIde) {
-            if (!array_key_exists($goodsSizeIde, GoodsSizeIdEnums::cases())) {
+        if ($goodsSizeId) {
+            if (!array_key_exists($goodsSizeId, GoodsSizeIdEnums::cases())) {
                 throw new InvalidArgumentException('蛋糕尺寸错误');
             }
         }
@@ -147,7 +147,7 @@ class OrderCalculateReceiver extends Parameters
      */
     public function validate(array $properties): void
     {
-        self::validateGoodsSizeIde($this->qualityDelivery, $this->goodType, $this->goodsSizeIde);
+        self::validateGoodsSizeIde($this->qualityDelivery, $this->goodType, $this->goodsSizeId);
     }
 
     /**
