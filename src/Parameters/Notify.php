@@ -168,6 +168,15 @@ class Notify extends Parameters
     }
 
     /**
+     * 订单完成，已退款
+     * @return bool
+     */
+    public function isCompletedRefund(): bool
+    {
+        return OrderStatusEnums::INT_50 === $this->status && OrderStatusEnums::INT_50_SUB_2 === $this->subStatus;
+    }
+
+    /**
      * 判断是否订单已取消
      * @return bool
      */

@@ -4,6 +4,7 @@ namespace Ledc\ShanSong\Parameters;
 
 use InvalidArgumentException;
 use Ledc\ShanSong\Enums\GoodsSizeIdEnums;
+use Ledc\ShanSong\Enums\GoodTypeEnums;
 
 /**
  * 收件人信息
@@ -128,7 +129,7 @@ class OrderCalculateReceiver extends Parameters
      */
     public static function validateGoodsSizeIde(?int $qualityDelivery, ?int $goodType, ?int $goodsSizeId): bool
     {
-        if (1 === $qualityDelivery && 5 === $goodType && empty($goodsSizeId)) {
+        if (1 === $qualityDelivery && GoodTypeEnums::INT_5 === $goodType && empty($goodsSizeId)) {
             throw new InvalidArgumentException('尊享服务送蛋糕时，蛋糕尺寸必填');
         }
 

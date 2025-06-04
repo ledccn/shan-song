@@ -3,6 +3,7 @@
 namespace Ledc\ShanSong\Parameters;
 
 use InvalidArgumentException;
+use Ledc\ShanSong\Enums\AppointTypeEnums;
 
 /**
  * 订单计费的data参数
@@ -20,7 +21,7 @@ class OrderCalculate extends Parameters
      * - 0立即单，1预约单
      * @var int
      */
-    public int $appointType = 0;
+    public int $appointType = AppointTypeEnums::IMMEDIATELY;
     /**
      * 预约取件时间
      * - yyyy-MM-dd HH:mm格式(例如：2020-02-02 22:00）,指的是预约取件时间,只支持一个小时以后两天以内
@@ -91,7 +92,7 @@ class OrderCalculate extends Parameters
      */
     public static function validateAppointment(int $appointType, string $appointmentDate): bool
     {
-        if (1 === $appointType) {
+        if (AppointTypeEnums::APPOINTMENT === $appointType) {
             if (empty($appointmentDate)) {
                 throw new InvalidArgumentException('预约取件时间不能为空');
             }
@@ -102,7 +103,7 @@ class OrderCalculate extends Parameters
             $min_time = time() + 3600;
             $max_time = time() + 86400 * 2;
             if ($appointment_timestamp < $min_time || $max_time < $appointment_timestamp) {
-                throw new InvalidArgumentException('预约取件时间必须在1小时后2天以内');
+                throw new InvalidArgumentException('预约取件时间必须在一个小时以后两天以内');
             }
         }
         return true;
