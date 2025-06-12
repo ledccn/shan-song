@@ -264,10 +264,16 @@ class Config implements JsonSerializable
      */
     public function verifyNotify(Notify $notify): bool
     {
-        if ($this->getClientId() !== $notify->getClientId()) {
+        if (!$notify->getClientId()) {
+            throw new InvalidArgumentException('client_id不能为空');
+        }
+        if (!$notify->getShopId()) {
+            throw new InvalidArgumentException('shop_id不能为空');
+        }
+        if ($notify->getClientId() !== $this->getClientId()) {
             throw new InvalidArgumentException('client_id不匹配');
         }
-        if ($this->autoShopId() !== $notify->getShopId()) {
+        if (!in_array($notify->getShopId(), [$this->getShopId(), $this->getTestShopId()], true)) {
             throw new InvalidArgumentException('shop_id不匹配');
         }
 
