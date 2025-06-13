@@ -97,16 +97,42 @@ class OrderCalculate extends Parameters
                 throw new InvalidArgumentException('预约取件时间不能为空');
             }
             $appointment_timestamp = strtotime($appointmentDate);
-            if (date('Y-m-d H:i', $appointment_timestamp) !== $appointmentDate) {
+            if (self::formatedAppointmentDate($appointment_timestamp) !== $appointmentDate) {
                 throw new InvalidArgumentException('预约取件时间为yyyy-MM-dd HH:mm格式');
             }
-            $min_time = time() + 3600;
-            $max_time = time() + 86400 * 2;
-            if ($appointment_timestamp < $min_time || $max_time < $appointment_timestamp) {
-                throw new InvalidArgumentException('预约取件时间必须在一个小时以后两天以内');
-            }
+            self::checkAppointment($appointment_timestamp);
         }
         return true;
+    }
+
+    /**
+     * 预约取件时间验证
+     * @param int $timestamp 预约取件时间
+     * @param bool $exception 是否抛出异常
+     * @return bool
+     */
+    public static function checkAppointment(int $timestamp, bool $exception = true): bool
+    {
+        $min_time = time() + 3600;
+        $max_time = time() + 86400 * 2;
+        if ($min_time < $timestamp && $timestamp < $max_time) {
+            return true;
+        }
+
+        if ($exception) {
+            throw new InvalidArgumentException('预约取件时间必须在一个小时以后两天以内');
+        }
+        return false;
+    }
+
+    /**
+     * 格式化预约取件时间
+     * @param int $timestamp 预约取件时间
+     * @return string
+     */
+    public static function formatedAppointmentDate(int $timestamp): string
+    {
+        return date('Y-m-d H:i', $timestamp);
     }
 
     /**
