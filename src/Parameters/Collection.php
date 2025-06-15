@@ -150,9 +150,7 @@ class Collection implements JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        return array_map(function ($value) {
-            return $value instanceof JsonSerializable ? $value->jsonSerialize() : $value;
-        }, $this->items);
+        return array_map(fn($value) => $value instanceof JsonSerializable ? $value->jsonSerialize() : $value, $this->items);
     }
 
     /**

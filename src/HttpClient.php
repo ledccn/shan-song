@@ -62,9 +62,7 @@ trait HttpClient
         $params = $this->getSystemParams();
 
         // 过滤非必传的空值
-        $data = array_filter($data, function ($value) {
-            return null !== $value && '' !== $value;
-        });
+        $data = array_filter($data, fn($value) => null !== $value && '' !== $value);
         if ($data) {
             $params['data'] = json_encode($data);
         }
