@@ -237,7 +237,7 @@ class Config implements JsonSerializable
     public static function generateSignature(array $params, string $appSecret): string
     {
         // 将集合 M 内非空参数以字典序升序（忽略大小写）排列拼接成键值格式的字符串
-        $params = array_filter($params, fn($value) => !is_null($value) && $value !== '');
+        $params = array_filter($params, fn($value) => null !== $value && '' !== $value);
         ksort($params);
         $original = '';
         foreach ($params as $key => $value) {
