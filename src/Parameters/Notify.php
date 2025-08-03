@@ -3,6 +3,7 @@
 namespace Ledc\ShanSong\Parameters;
 
 use Ledc\ShanSong\Enums\OrderStatusEnums;
+use Ledc\SupportSdk\Parameters;
 
 /**
  * 订单状态回调的数据报文

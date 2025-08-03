@@ -2,6 +2,7 @@
 
 namespace Ledc\ShanSong;
 
+use Ledc\SupportSdk\HttpResponse;
 use RuntimeException;
 
 /**

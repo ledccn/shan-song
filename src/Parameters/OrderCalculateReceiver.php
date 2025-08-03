@@ -5,6 +5,7 @@ namespace Ledc\ShanSong\Parameters;
 use InvalidArgumentException;
 use Ledc\ShanSong\Enums\GoodsSizeIdEnums;
 use Ledc\ShanSong\Enums\GoodTypeEnums;
+use Ledc\SupportSdk\Parameters;
 
 /**
  * 收件人信息

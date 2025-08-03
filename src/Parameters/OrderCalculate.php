@@ -4,6 +4,7 @@ namespace Ledc\ShanSong\Parameters;
 
 use InvalidArgumentException;
 use Ledc\ShanSong\Enums\AppointTypeEnums;
+use Ledc\SupportSdk\Parameters;
 
 /**
  * 订单计费的data参数

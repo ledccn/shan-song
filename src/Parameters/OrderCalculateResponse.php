@@ -2,6 +2,8 @@
 
 namespace Ledc\ShanSong\Parameters;
 
+use Ledc\SupportSdk\Parameters;
+
 /**
  * 订单计费接口返回参数
  */

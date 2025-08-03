@@ -18,6 +18,7 @@
   ],
   "require": {
     "php": ">=7.4",
+    "ledc/support-sdk": "^7.4",
     "ext-json": "*",
     "ext-curl": "*"
   },

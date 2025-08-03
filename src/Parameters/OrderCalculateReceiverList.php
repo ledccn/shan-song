@@ -2,6 +2,8 @@
 
 namespace Ledc\ShanSong\Parameters;
 
+use Ledc\SupportSdk\Collection;
+
 /**
  * 收件人信息集合
  */
